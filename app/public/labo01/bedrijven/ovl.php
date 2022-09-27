@@ -106,22 +106,31 @@ $companies = [['name' => 'Lunch Garden', 'address' => 'Avenue des Olympiades 2',
         ['name' => 'Smals', 'address' => 'Avenue Fonsny 20', 'zip' => 1060, 'city' => 'Bruxelles', 'activity' => 'Data processing, hosting and related activities', 'vat' => 'BE0406798006'],
         ['name' => 'Fabricom', 'address' => 'Boulevard Simon Bolivar 34-36', 'zip' => 1000, 'city' => 'Bruxelles', 'activity' => 'Manufacture of metal structures and parts of structures', 'vat' => 'BE0425702910']];
 
+$eastFlandersCompanies = array();
+foreach ($companies as $company){
+    if (intdiv($company['zip'], 1000) === 9){
+        $eastFlandersCompanies[] = $company;
+    }
+}
 ?><!DOCTYPE html>
 <html>
 <head>
     <title>Voka - bedrijfslijst</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--[if lte IE 8]><script src="js/ie/html5shiv.js"></script><![endif]-->
+    <!--[if lte IE 8]>
+    <script src="js/ie/html5shiv.js"></script><![endif]-->
     <link rel="stylesheet" href="css/main.css" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/ie8.css"/><![endif]-->
 
     <!-- Scripts -->
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.poptrox.min.js"></script>
     <script src="js/skel.min.js"></script>
     <script src="js/util.js"></script>
-    <!--[if lte IE 8]><script src="js/ie/respond.min.js"></script><![endif]-->
+    <!--[if lte IE 8]>
+    <script src="js/ie/respond.min.js"></script><![endif]-->
     <script src="js/main.js"></script>
 </head>
 <body id="top">
@@ -158,11 +167,13 @@ $companies = [['name' => 'Lunch Garden', 'address' => 'Avenue des Olympiades 2',
                 </tr>
                 </thead>
                 <tbody>
+                <?php foreach ($eastFlandersCompanies as $company) { ?>
                 <tr>
-                    <td>in te vullen</td>
-                    <td>in te vullen</td>
-                    <td>in te vullen</td>
+                    <td><?php echo htmlentities($company['name']); ?></td>
+                    <td><?php echo htmlentities($company['address']); ?></td>
+                    <td><?php echo htmlentities($company['name'] . ' ' . $company['city']); ?></td>
                 </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
