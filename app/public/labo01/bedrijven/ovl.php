@@ -171,7 +171,7 @@ foreach ($companies as $company){
                 <tr>
                     <td><?php echo htmlentities($company['name']); ?></td>
                     <td><?php echo htmlentities($company['address']); ?></td>
-                    <td><?php echo htmlentities($company['name'] . ' ' . $company['city']); ?></td>
+                    <td><?php echo htmlentities($company['zip'] . ' ' . $company['city']); ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>
