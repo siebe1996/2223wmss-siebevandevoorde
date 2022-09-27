@@ -106,6 +106,57 @@ $companies = [['name' => 'Lunch Garden', 'address' => 'Avenue des Olympiades 2',
         ['name' => 'Smals', 'address' => 'Avenue Fonsny 20', 'zip' => 1060, 'city' => 'Bruxelles', 'activity' => 'Data processing, hosting and related activities', 'vat' => 'BE0406798006'],
         ['name' => 'Fabricom', 'address' => 'Boulevard Simon Bolivar 34-36', 'zip' => 1000, 'city' => 'Bruxelles', 'activity' => 'Manufacture of metal structures and parts of structures', 'vat' => 'BE0425702910']];
 
+$name = isset($_GET['search']) ? (string) $_GET['search'] : '';
+$sort = isset($_GET['sort']) ? (string)$_GET['sort'] : '';
+$id = isset($_GET['id']) ? (string)$_GET['id'] : '';
+
+if (trim($sort) !== '') {
+    if ($sort === 'zip') {
+        usort($companies, sorter('zip'));
+    }
+    elseif ($sort === 'name'){
+        usort($companies, sorter('name'));
+    }
+    elseif ($sort === 'address'){
+        usort($companies, sorter('address'));
+    }
+    elseif ($sort === 'city'){
+        usort($companies, sorter('city'));
+    }
+    elseif ($sort === 'vat'){
+        usort($companies, sorter('vat'));
+    }
+    else {
+        //error
+    }
+}
+if (trim($name) !== ''){
+    $companies = search($name, $companies, 'name');
+}
+
+if (trim($id) !== '' && is_numeric($id) && trim($id) < count($companies)){
+    $matched = array();
+    $matched[] = $companies[$id];
+    $companies = $matched;
+}
+
+function sorter($key){
+    return function ($a, $b) use ($key){
+        return strnatcmp($a[$key], $b[$key]);
+    };
+}
+
+function search($value, $array, $key){
+    $matches = array();
+    foreach ($array as $item){
+        if (str_contains(strtolower($item[$key]), strtolower($value))){
+            $matches[] = $item;
+        }
+    }
+    return $matches;
+}
+
+//var_dump($companies);
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -161,11 +212,13 @@ $companies = [['name' => 'Lunch Garden', 'address' => 'Avenue des Olympiades 2',
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>in te vullen</td>
-                    <td>in te vullen</td>
-                    <td>in te vullen</td>
-                </tr>
+                <?php foreach ($companies as $company) { ?>
+                    <tr>
+                        <td><?php echo $company['name']; ?></td>
+                        <td><?php echo $company['address']; ?></td>
+                        <td><?php echo $company['zip'] . ' ' . $company['city']; ?></td>
+                    </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
