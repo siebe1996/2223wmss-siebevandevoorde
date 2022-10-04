@@ -6,7 +6,7 @@ if (isPalinDrome($parameter)){
 else {
     print_r($parameter . ' is not a palindrome' . PHP_EOL);
 }
-function isPalinDrome($string): bool
+function isPalinDrome(string $string): bool
 {
     return strrev($string) === $string;
 }
