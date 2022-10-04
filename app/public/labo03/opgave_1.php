@@ -31,7 +31,7 @@
         natsort($images);
         $imageArr = [];
         foreach ($images as $key=>$image){
-            $imageArr[$image] = $linesArr[$key];
+            $imageArr[] = ['url' => $image, 'caption' => $linesArr[$key]];
         }
 
 		// @TODO loop directory
@@ -99,8 +99,8 @@
 <body>
 	<ul>
         <?php
-        foreach ($imageArr as $image => $caption) {
-            echo '<li><img src="'.$baseUrl.'/'.$image.'" alt=""><span class="caption">'.$caption.'</span></li>' . PHP_EOL;
+        foreach ($imageArr as $image_value) {
+            echo '<li><img src="'.$baseUrl.'/'.$image_value['url'].'" alt=""><span class="caption">'.$image_value['caption'].'</span></li>' . PHP_EOL;
         }
         ?>
 	</ul>
