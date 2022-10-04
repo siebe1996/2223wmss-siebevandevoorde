@@ -2,7 +2,7 @@
 <?php
 $pwd = getcwd();
 $fileArr = [];
-$path ='/';
+$path ='';
 
 if (isset($_GET['path'])){
     $pathbool = true;
