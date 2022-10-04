@@ -8,30 +8,22 @@
 	// vars
 
 		$basePath = __DIR__ . DIRECTORY_SEPARATOR . 'images'; // check the location on disk!
+        $captionPath = __DIR__ . DIRECTORY_SEPARATOR . 'images/captions.txt';
 		$baseUrl = 'images'; // images
 		$images = []; // An array which will hold all our images
-        $linesArr = [];
 
 	// Main code
 
 		// @TODO Open directory and captions file using some SPL classes
         $dir = new DirectoryIterator(($basePath));
+
+        $captionTxt = new SplFileObject($captionPath);
+        $started = false;
         foreach ($dir as $file){
             if (!$file -> isDot() && !$file -> isDir() && $file -> getExtension() == 'jpg'){
-                $images[] = $file -> getFilename();
+                $imageArr[] = ['url' => $file->getFilename(), 'caption' => $captionTxt->current()];
+                $captionTxt->next();
             }
-            else if(!$file -> isDot() && !$file -> isDir()){
-                $caption = $file -> getFilename();
-                $lines = new SplFileObject($basePath.'/'.$caption);
-                foreach ($lines as $line_num => $line) {
-                    $linesArr[] = $line;
-                }
-            }
-        }
-        natsort($images);
-        $imageArr = [];
-        foreach ($images as $key=>$image){
-            $imageArr[] = ['url' => $image, 'caption' => $linesArr[$key]];
         }
 
 		// @TODO loop directory
