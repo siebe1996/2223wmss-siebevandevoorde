@@ -12,6 +12,10 @@ require_once ('../../src/Services/DatabaseConnector.php');
 // fetch GET/POST parameters
 
 $moduleAction = isset($_GET['moduleAction']) ? (string) $_GET['moduleAction'] : '';
+$name = isset($_GET['search']) ? (string) $_GET['search'] : '';
+$sort = isset($_GET['sort']) ? (string)$_GET['sort'] : '';
+$type = isset($_GET['type']) ? (string)$_GET['type'] : '';
+
 
 // connect to database
 
@@ -41,11 +45,36 @@ try {
 
 // build SQL query depending on parameters (sort, search)
 if ($moduleAction === 'processName'){
-
+    if (trim($name) != ''){
+        $stmtName = $connection->prepare('SELECT * FROM companies WHERE  name LIKE ?');
+        $result = $stmtName->executeQuery(['%'.$name.'%']);
+        $companies = $result->fetchAllAssociative();
+    }
 }
 else {
     $stmtName = $connection->prepare('SELECT * FROM companies');
     $result = $stmtName->executeQuery([]);
+    $companies = $result->fetchAllAssociative();
+}
+
+if (trim($sort) === 'name'){
+    if(trim($type) === 'DESC'){
+        $stmtName = $connection->prepare('SELECT * FROM companies ORDER BY name DESC');
+    }
+    else{
+        $stmtName = $connection->prepare('SELECT * FROM companies ORDER BY name');
+    }
+    $result = $stmtName->executeQuery();
+    $companies = $result->fetchAllAssociative();
+}
+if (trim($sort) === 'zip'){
+    if(trim($type) === 'DESC'){
+        $stmtName = $connection->prepare('SELECT * FROM companies ORDER BY zip DESC');
+    }
+    else{
+        $stmtName = $connection->prepare('SELECT * FROM companies ORDER BY zip');
+    }
+    $result = $stmtName->executeQuery();
     $companies = $result->fetchAllAssociative();
 }
 
@@ -101,9 +130,9 @@ else {
             <table class="alt">
                 <thead>
                 <tr>
-                    <th>Naam &nbsp; <a href="#" style="border-bottom: 0;">&#9660;</a>&nbsp;<a href="#" style="border-bottom: 0;">&#9650;</a></th>
+                    <th>Naam &nbsp; <a href="?sort=name&type=DESC" style="border-bottom: 0;">&#9660;</a>&nbsp;<a href="?sort=name&type=ASC" style="border-bottom: 0;">&#9650;</a></th>
                     <th>Straat en nummer</th>
-                    <th>Postcode en gemeente &nbsp; <a href="#" style="border-bottom: 0;">&#9660;</a>&nbsp;<a href="#" style="border-bottom: 0;">&#9650;</a></th>
+                    <th>Postcode en gemeente &nbsp; <a href="?sort=zip&type=DESC" style="border-bottom: 0;">&#9660;</a>&nbsp;<a href="?sort=zip&type=ASC" style="border-bottom: 0;">&#9650;</a></th>
                 </tr>
                 </thead>
                 <tbody>
