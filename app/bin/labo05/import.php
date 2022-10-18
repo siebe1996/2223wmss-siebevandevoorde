@@ -14,12 +14,6 @@ $connectionParams = [
 
 $connection = \Services\DatabaseConnector::getConnection($connectionParams);
 
-/*
-if ($connection) {
-    echo 'connection was successfully estabished';
-}
-*/
-
 function showDbError(string $type): void
 {
     header('location: error.php?type=db&detail=' . $type);
@@ -38,25 +32,18 @@ $file = fopen('../../resources/companies.csv', 'r');
 $pureData = [];
 $companies = [];
 
-while (!feof($file)) {
-    $data = fgetcsv($file);
-    array_push($pureData, $data);
-}
-
 $stmt = $connection->prepare('INSERT INTO companies (name, address, zip, city, activity, vat, date_added) VALUES (?, ?, ?, ? ,? ,?, ?)');
 
-for ($i = 1; ($i < sizeof($pureData) - 1); $i++) {
-    $companies[$i - 1] = array(
-        $pureData[0][0] => $pureData[$i][0],
-        $pureData[0][1] => $pureData[$i][1],
-        $pureData[0][2] => $pureData[$i][2],
-        $pureData[0][3] => $pureData[$i][3],
-        $pureData[0][4] => $pureData[$i][4],
-        $pureData[0][5] => $pureData[$i][5],
-        'date_added' => (new DateTime()) -> format('y-m-d h:i:s')
-    );
-    $result = $stmt->executeStatement([$pureData[$i][0], $pureData[$i][1], $pureData[$i][2], $pureData[$i][3], $pureData[$i][4], $pureData[$i][5], $companies[$i-1]['date_added']]);
-}
 
+$skip = true;
+if (($handle = fopen('../../resources/companies.csv', 'r')) !== FALSE) {
+    while (($data = fgetcsv($handle)) !== FALSE) {
+        if (!$skip) {
+            $result = $stmt->executeStatement([$data[0], $data[1], $data[2], $data[3], $data[4], $data[5], (new DateTime()) -> format('y-m-d h:i:s')]);
+        }
+        $skip = false;
+    }
+    fclose($handle);
+}
 
 ?>
