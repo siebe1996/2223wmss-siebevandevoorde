@@ -48,7 +48,7 @@ if ($moduleAction === 'processName'){
             <dt><label for="name">Name</label></dt>
             <dd class="text"><input type="text" id="name" name="name" value="<?php echo htmlentities($name); ?>" class="input-text" /></dd>
             <?php if (trim($name) === '' && !$allOk) {
-                echo '<p class="error">'.$messageName.'</p>';
+                echo '<span class="message error">'.$messageName.'</span>';
             }?>
 
             <dt><label for="number1">Number1</label></dt>

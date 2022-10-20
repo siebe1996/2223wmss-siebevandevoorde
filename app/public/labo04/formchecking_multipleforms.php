@@ -10,6 +10,14 @@ $age = isset($_POST['age']) ? (string) $_POST['age'] : '';
 $moduleAction = isset($_POST['moduleAction']) ? (string) $_POST['moduleAction'] : '';
 $msgName = '*';
 $msgAge = '*';
+$usbsticks = [64=>19.0, 128=>33.0, 256=>62];
+$moduleAction = isset($_POST['moduleAction']) ? (string) $_POST['moduleAction'] : '';
+$usb = $_POST['usb'];
+$prijs = '';
+
+if ($moduleAction === 'processUsb'){
+    $prijs = $usbsticks[$usb];
+}
 
 // form is sent: perform formchecking!
 if ($moduleAction == 'processName') {
@@ -107,38 +115,36 @@ if ($moduleAction == 'processAge') {
 
 </form>
 
-<div id="debug">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
-    <?php
+    <input type="hidden" name="moduleAction" value="processUsb">
 
-    /**
-     * Helper Functions
-     * ========================
-     */
+    <fieldset>
 
-    /**
-     * Dumps a variable
-     * @param mixed $var
-     * @return void
-     */
-    function dump($var) {
-        echo '<pre>';
-        var_dump($var);
-        echo '</pre>';
-    }
+        <h2>Testform #3</h2>
 
+        <dl class="clearfix">
 
-    /**
-     * Main Program Code
-     * ========================
-     */
+            <dt><label>Usb stick</label></dt>
+            <dd>
+                <?php foreach($usbsticks as $key => $value){
+                    ?>
+                    <label for="usb_<?php echo $key?>"><input type="radio" class="option" name="usb" id="usb_<?php echo $key?>" value="<?php echo $key?>"<?php if ($usb == $key) { echo ' checked="checked"'; } ?> /><?php echo $key?>GB €<?php echo $value?></label>
+                    <?php
+                }
+                ?>
+            </dd>
 
-    // dump $_POST
-    dump($_POST);
+            <dt class="full clearfix" id="lastrow">
+                <input type="hidden" name="moduleAction" value="processAge" />
+                <input type="submit" id="btnSubmit" name="btnSubmit" value="Send" />
+            </dt>
 
-    ?>
+        </dl>
 
-</div>
+    </fieldset>
+
+</form>
 
 </body>
 </html>
