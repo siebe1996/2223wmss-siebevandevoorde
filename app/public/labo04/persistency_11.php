@@ -14,10 +14,16 @@ $moduleAction = isset($_GET['moduleAction']) ? (string) $_GET['moduleAction'] : 
 $message = '*';
 $allOk = true;
 $messageName = 'Gelieve een naam in te vullen';
+$number1 = isset($_GET['number1']) ? (string)$_GET['number1'] : rand(0,100);
+$number2 = isset($_GET['number2']) ? (string)$_GET['number2'] : rand(0,100);
+$som='';
 
 if ($moduleAction === 'processName'){
     if(trim($name) === ''){
         $allOk = false;
+    }
+    if (filter_var($number1, FILTER_VALIDATE_INT) && filter_var($number2, FILTER_VALIDATE_INT)){
+        $som = $number1 + $number2;
     }
 }
 
@@ -44,6 +50,16 @@ if ($moduleAction === 'processName'){
             <?php if (trim($name) === '' && !$allOk) {
                 echo '<p class="error">'.$messageName.'</p>';
             }?>
+
+            <dt><label for="number1">Number1</label></dt>
+            <dd class="text"><input type="text" id="number1" name="number1" value="<?php echo htmlentities($number1); ?>" class="input-text" /></dd>
+
+            <dt><label for="number2">Number2</label></dt>
+            <dd class="text"><input type="text" id="number2" name="number2" value="<?php echo htmlentities($number2); ?>" class="input-text" /></dd>
+
+            <dt><label for="som">Som</label></dt>
+            <dd class="text"><input type="text" id="som" name="som" value="<?php echo htmlentities($som); ?>" class="input-text" /></dd>
+
 
             <dt><label for="pass">Password</label></dt>
             <dd class="text"><input type="password" id="pass" name="pass" value="<?php echo htmlentities($pass); ?>" class="input-text" /></dd>
@@ -86,39 +102,6 @@ if ($moduleAction === 'processName'){
     </fieldset>
 
 </form>
-
-<div id="debug">
-
-    <?php
-
-    /**
-     * Helper Functions
-     * ========================
-     */
-
-    /**
-     * Dumps a variable
-     * @param mixed $var
-     * @return void
-     */
-    function dump($var) {
-        echo '<pre>';
-        var_dump($var);
-        echo '</pre>';
-    }
-
-
-    /**
-     * Main Program Code
-     * ========================
-     */
-
-    // dump $_GET
-    dump($_GET);
-
-    ?>
-
-</div>
 
 </body>
 </html>
