@@ -16,8 +16,8 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header"><!-- Just an image -->
-            <a class="navbar-brand" href={{ index }}><img src="img/ikdoeict.png" height="20" alt="ikdoeict alt logo"></a>
-            <a class="navbar-brand" href={{ index }}>Mijn takenlijst</a>
+            <a class="navbar-brand" href="{{ index }}"><img src="img/ikdoeict.png" height="20" alt="ikdoeict alt logo"></a>
+            <a class="navbar-brand" href="{{ index }}">Mijn takenlijst</a>
         </div>
         <!-- Weer te geven indien niet ingelogd -->
         <ul class="nav navbar-nav navbar-right">
@@ -29,23 +29,23 @@
     <div class="col-sm-offset-2 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Nieuwe taak
+                Taak wijzigen
             </div>
             <div class="panel-body">
                 {% if errors %}
-                <!-- Display Validation Errors -->
-                <div class="alert alert-danger">
-                    <strong>Hier is iets misgegaan.</strong>
-                    <br><br>
-                    <ul>
-                        {% for error in errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    <!-- Display Validation Errors -->
+                    <div class="alert alert-danger">
+                        <strong>Hier is iets misgegaan.</strong>
+                        <br><br>
+                        <ul>
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 {% endif %}
-                <!-- New Task Form -->
-                <form action={{ index }} method="POST" class="form-horizontal">
+                <!-- Task Edit Form -->
+                <form action={{ edit }} method="POST" class="form-horizontal">
                     <!-- Task Name -->
                     <div class="form-group">
                         <label for="what" class="col-sm-3 control-label">Taak</label>
@@ -66,55 +66,18 @@
                             </select>
                         </div>
                     </div>
-                    <input type="hidden" name="moduleAction" value="add" />
+                    <input type="hidden" name="moduleAction" value="edit" />
+                    <input type="hidden" name="id" value="3" />
                     <!-- Add Task Button -->
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-6">
                             <button type="submit" class="btn btn-default">
-                                <i class="fa fa-btn fa-plus"></i>Voeg taak toe
+                                <i class="fa fa-btn fa-pencil"></i>Taak wijzigen
                             </button>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-        <!-- Current Tasks -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Huidige taken
-            </div>
-            <div class="panel-body">
-
-                <table class="table table-striped task-table" >
-                    <thead>
-                    <tr>
-                        <th class="col-sm-8">Taak</th>
-                        <th class="col-sm-2">&nbsp;</th>
-                        <th class="col-sm-2">&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {% for task in tasks%}
-
-                        <tr>
-                            <td class="table-text">
-                                <div class="item {{ task.priority }}">{{ task.name }}</div>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" href={{ edit ~ '?id=' ~ task.id }} role="button">
-                                    <i class="fa fa-btn fa-pencil"></i>Wijzigen
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger" href={{ delete ~ '?id=' ~ task.id }} role="button">
-                                    <i class="fa fa-btn fa-trash"></i>Verwijderen
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                <p class="text-left"><a href={{ index }}>Annuleren en terug naar overzicht</a></p>
             </div>
         </div>
     </div>
@@ -127,5 +90,5 @@
 <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="js/index.js"></script>
+<script src="js/edit.js"></script>
 </body>
