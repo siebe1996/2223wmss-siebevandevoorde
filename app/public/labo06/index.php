@@ -35,9 +35,12 @@ $twig = new \Twig\Environment($loader, [
 // Initial Values
 $priorities = ['low', 'normal', 'high']; // The possible priorities of a task
 $formErrors = []; // The encountered form errors
+if (isset($_GET['formErrors'])){
+    $formErrors[] = urldecode($_GET['formErrors']);
+}
 
-$what = isset($_POST['what']) ? $_POST['what'] : ''; 
-$priority = isset($_POST['priority']) ? $_POST['priority'] : 'low';
+$what = $_POST['what'] ?? '';
+$priority = $_POST['priority'] ?? 'low';
 
 // Handle action 'add' (user pressed add button)
 if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] === 'add')) {
@@ -46,11 +49,11 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] === 'add')) {
     // (if an error was encountered, add it to the $formErrors array)
 
     if (trim($what) === ''){
-        array_push($formErrors,'Voer een naam in voor je taak');
+        $formErrors[] = 'Voer een naam in voor je taak';
     }
 
     if(!in_array($priority, $priorities)){
-        array_push($formErrors, 'Ongeldige prioriteit geselecteerd');
+        $formErrors[] = 'Ongeldige prioriteit geselecteerd';
     }
 
     //  if no errors: insert values into database
