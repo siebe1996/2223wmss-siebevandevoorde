@@ -26,6 +26,7 @@ $formErrors = [];
 // extract sent in username & password
 $username = isset($_POST['username']) ? trim($_POST['username']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+$lastLogin = (string) isset($_COOKIE['lastLogin']) ? $_COOKIE['lastLogin'] : 'Er werd op dit toestel nog niet ingelogd op deze website.';
 
 if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 
@@ -39,6 +40,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
 
             // Store the user row in the session
             $_SESSION['user'] = $user;
+            setcookie('lastLogin', (new DateTime()) -> format('y-m-d h:i:s'),0,"","",false,true);
             header('location: index.php');
             exit();
         } // Invalid login
@@ -56,5 +58,6 @@ $tpl = $twig->load('login2.twig');
 echo $tpl->render([
     'username' => $username,
     'errors' => $formErrors,
-    'loggedIn' => false
+    'loggedIn' => false,
+    'lastLogin' => $lastLogin
 ]);

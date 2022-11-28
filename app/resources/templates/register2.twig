@@ -3,7 +3,7 @@
     <div class="col-sm-offset-2 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Inloggen
+                Registreren
             </div>
             <div class="panel-body">
                 {% if errors %}
@@ -11,7 +11,7 @@
                     {%  include 'errors.twig' %}
                 {% endif %}
                 <!-- Task Edit Form -->
-                <form action="login.php" method="POST" class="form-horizontal">
+                <form action="register.php" method="POST" class="form-horizontal">
                     <!-- Task Name -->
                     <div class="form-group">
                         <label for="username" class="col-sm-3 control-label">Gebruikernaam</label>
@@ -25,18 +25,16 @@
                             <input type="password" name="password" id="password" class="form-control" value="">
                         </div>
                     </div>
-                    <input type="hidden" name="moduleAction" value="login" />
+                    <input type="hidden" name="moduleAction" value="register" />
                     <!-- Add Task Button -->
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-6">
                             <button type="submit" class="btn btn-default">
-                                Inloggen
+                                Registreren
                             </button>
                         </div>
                     </div>
                 </form>
-                <p class="text-left">{{ lastLogin }}</p>
-                <a href="register.php">Register here</a> if you don't have an account yet
             </div>
         </div>
     </div>
