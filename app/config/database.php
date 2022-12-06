@@ -11,3 +11,5 @@ define('DB_PASS', 'Azerty123');
 
 define('DB_NAME', 'wmss-labo');
 define('DEBUG', true);
+
+define('BASE_PATH', 'http://localhost:8080/labo08/');

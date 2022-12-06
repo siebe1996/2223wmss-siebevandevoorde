@@ -1,0 +1,160 @@
+{% extends 'main08.twig' %}
+{% block pageContent %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Add a company</h3>
+        </div>
+
+        <div class="title_right">
+
+        </div>
+    </div>
+
+    <div class="">
+        <div class="clearfix"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br/>
+                    <form class="form-horizontal form-label-left" action="{{ url('companies/create') }}" method="POST">
+
+                        <div class="form-group row ">
+                            <label class="control-label col-md-3 col-sm-3 ">Company name</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="name" placeholder="" value="{{ form['name'] }}">
+                                {% if errors['name'] %}
+                                <div class="alert red">
+                                    {{ errors['name'] }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">VAT Number </label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="vat_number" value="{{ form['vat_number'] }}">
+                                {% if errors['vat_number'] %}
+                                    <div class="alert red">
+                                        {{ errors['vat_number'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Street & housenumber </label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="address" value="{{ form['address'] }}">
+                                {% if errors['address'] %}
+                                    <div class="alert red">
+                                        {{ errors['address'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Postal code & city </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input type="text" class="form-control" name="zip" value="{{ form['zip'] }}">
+                                {% if errors['zip'] %}
+                                    <div class="alert red">
+                                        {{ errors['zip'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" class="form-control" name="city" value="{{ form['city'] }}">
+                                {% if errors['city'] %}
+                                    <div class="alert red">
+                                        {{ errors['city'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">
+                            <label for="priority" class="col-sm-3 control-label">Primary contact</label>
+                            <div class="col-sm-9">
+                                <select name="primary_contact" id="primary_contact" class="form-control">
+                                    {% if primary_contacts|length < 0 %}
+                                        <option value="wrong">something went wrong</option>
+                                    {% endif %}
+                                    <option value="-1" >...</option>
+                                    {% for value in primary_contacts %}
+                                        <option value="{{ value.id }}"  {% if value.id == session['flash']['primary_contact'] %} selected="selected" {% endif %} >{{ value.first_name }} {{ value.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if session['flash']['errors']['primary_contact'] %}
+                                    <div class="alert red">
+                                        {{ session['flash']['errors']['primary_contact'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Primary contact - First name</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="primary_contact_first_name" value="{{ form['primary_contact_first_name'] }}">
+                                {% if errors['primary_contact_first_name'] %}
+                                    <div class="alert red">
+                                        {{ errors['primary_contact_first_name'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Primary contact - Last name</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="primary_contact_last_name" value="{{ form['primary_contact_last_name'] }}">
+                                {% if errors['primary_contact_last_name'] %}
+                                    <div class="alert red">
+                                        {{ errors['primary_contact_last_name'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Primary contact - Email</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="primary_contact_email" value="{{ form['primary_contact_email'] }}">
+                                {% if errors['primary_contact_email'] %}
+                                    <div class="alert red">
+                                        {{ errors['primary_contact_email'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 col-sm-3 ">Primary contact - Phone</label>
+                            <div class="col-md-9 col-sm-9 ">
+                                <input type="text" class="form-control" name="primary_contact_phone" value="{{ form['primary_contact_phone'] }}">
+                                {% if errors['primary_contact_phone'] %}
+                                    <div class="alert red">
+                                        {{ errors['primary_contact_phone'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="reset" class="btn btn-outline-primary"><a href="{{ url('/companies') }}">Cancel</a></button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<!-- /page content -->
+{% endblock %}
