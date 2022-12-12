@@ -257,7 +257,7 @@ class DashboardController08
         exit();
     }
 
-    public function Register()
+    public function register()
     {
         if (isset($_SESSION['user'])) {
             header('location: /labo08/companies');
@@ -288,16 +288,23 @@ class DashboardController08
             $user = $this->conn->fetchAssociative('SELECT * FROM users WHERE username = ?', [$username]);
             $admins = $this->conn->fetchAssociative('SELECT * FROM users WHERE roleId = ?', [1]);
             //toDo add user emails in db
-            /*\Services\MailService::send($this->twig, 'register@allela.com', $user['email'], 'newly registerd user','emailUser09.twig', ['name' => $user['username']]);
+            \Services\MailService::send($this->twig, 'register@allela.com', $user['username'].'@gmail.com', 'newly registerd user','emailUser09.twig', ['name' => $user['username']]);
             foreach ($admins as $admin){
-                \Services\MailService::send($this->twig, 'register@allela.com', $admin['email'], 'newly registerd user','emailAdmin09.twig', ['name' => $admin['username'], 'username' => $user['username']]);
-            }*/
+                \Services\MailService::send($this->twig, 'register@allela.com', $admin['username'].'allela.com', 'newly registerd user','emailAdmin09.twig', ['name' => $admin['username'], 'username' => $user['username']]);
+            }
             header('location: /labo08/login');
             exit();
         }
         $register = ['username' => $username, 'password' => $password];
         $_SESSION['flash'] = ['errors' => $formErrors, 'register' => $register];
         header('Location: /labo08/login#signup');
+        exit();
+    }
+
+    public function save(){
+        $results = $this->conn->fetchAllAssociative('SELECT c.id, c.name, c.address, c.postal_code, c.city, c.vat_number, con.first_name, con.last_name FROM companies AS c LEFT JOIN contacts AS con ON c.id = con.company_id WHERE con.primary_contact = true', []);
+        \Services\ExportService::save('companies', $results);
+        header('location: ../companies');
         exit();
     }
 
